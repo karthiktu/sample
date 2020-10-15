@@ -12,7 +12,7 @@ pipeline{
 
         stage('Create Image'){
             steps{
-                image = docker.build("tukarthik/express-helloworld:${env.BUILD_ID}")
+                def image = docker.build("tukarthik/express-helloworld:${env.BUILD_ID}")
             }
         }
 
