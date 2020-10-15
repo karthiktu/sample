@@ -12,14 +12,18 @@ pipeline{
 
         stage('Create Image'){
             steps{
-                def image = docker.build("tukarthik/express-helloworld:${env.BUILD_ID}")
+                script{
+                    image = docker.build("tukarthik/express-helloworld:${env.BUILD_ID}")
+                }
             }
         }
 
         stage('Push Image'){
             steps{
-                docker.withRegistry('https://registry.hub.docker.com', 'dockerHub'){
-                    image.push()
+                script{
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerHub'){
+                        image.push()
+                    }
                 }
             }
         }
