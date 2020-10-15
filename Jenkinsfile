@@ -1,10 +1,27 @@
-node {
-    checkout scm
-    
-    docker.withRegistry('https://registry.hub.docker.com', 'dockerHub'){
+pipeline{
 
-        def customImage = docker.build("tukarthik/express-helloworld:${env.BUILD_ID}")
+    agent any
 
-        customImage.push()
+    stages {
+
+        stage('Checkout Source'){
+            steps{
+                checkout scm
+            }
+        }
+
+        stage('Create Image'){
+            steps{
+                image = docker.build("tukarthik/express-helloworld:${env.BUILD_ID}")
+            }
+        }
+
+        stage('Push Image'){
+            steps{
+                docker.withRegistry('https://registry.hub.docker.com', 'dockerHub'){
+                    customImage.push()
+                }
+            }
+        }
     }
 }
